@@ -1,48 +1,85 @@
-<project name="helloworld" default="war">
-	<property name="src" location="src/java" />
-	<property name="libcompile" location="lib/compile" />
-	<property name="libruntime" location="lib/runtime" />
-	<property name="web" location="web" />
-	<property name="webxml" location="${web}/WEB-INF/web.xml" />
-	<property name="build" location="build" />
-	<property name="classes" location="${build}/classes" />
+<project name="msa-main" basedir="." default="dist">	
+	<description>TEST for msa-main </description>
+	<property name="src.dir"   location="src"/>
+	<property name="build.dir" location="build"/>
+    <property name="dist.dir" location="dist"/>
+    <property name="war.file" value="webapp.war"/>
+    <property name="web.lib" location="WebContent/WEB-INF/lib"/>
+    <!--
+    <property name="lib" location="lib"/>
+    -->
+	<echo>"Start build Accordion"</echo>
 
-	<property name="version" value="0.1-dev" />
-	<property name="source" value="1.7" />
-	<property name="target" value="1.7" />
 
-	<path id="classpath">
-		<fileset dir="${libcompile}">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="${libruntime}">
-			<include name="*.jar" />
-		</fileset>
-	</path>
+    <target name="init">
+        <delete dir="${dist.dir}"/>
+        <delete file="kdiis.war"/>
 
-	<target name="clean">
-		<delete dir="${build}" />
-	</target>
+        <!-- Create dist.dir-->
+        <mkdir dir="${dist.dir}"/>
+        
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+    </target>
+      
+    <path id="classpath">
+        <!--  Include all elements for this application only   -->
+            <fileset dir="${web.lib}">
+                    <include name="*.jar" />
+            </fileset>
+	    <!-- Tomcat Build Path> --> 
+    	<!--
+	        <fileset dir="/home/jenkins/agent/userContent/tomcat8">
+	                <include name="*.jar" />
+	        </fileset>	
+	        -->
+    </path>
 
-	<target name="init" depends="clean">
-		<mkdir dir="${build}" />
-		<mkdir dir="${classes}" />
-	</target>
+    <target name="compile" depends="init"
+            description="compile the source " >
+        <javac srcdir="${src.dir}" destdir="${dist.dir}"
+            includeantruntime="false"  
+            encoding="EUC-KR"
+            fork="yes"  
+            source="1.8" 
+            target="1.8" 
+            compiler="javac1.8" 
+            deprecation="on"
+            classpathref="classpath" listfiles="yes" >
+            <compilerarg value="-Xlint:unchecked"/>
+                <include name="**/*.java"/>
+        </javac>
+        <copy todir="${dist.dir}">
+        <fileset dir="${src.dir}">
+            <exclude name="**/*.java"/>
+            <exclude name="**/*.class"/>
+        </fileset>
+        </copy>
+    </target>
 
-	<target name="compile" depends="init">
-		<javac includeantruntime="false" 
-		srcdir="${src}" destdir="${classes}" source="${source}" target="${target}">
-			<classpath refid="classpath" />
-		</javac>
-	</target>
-
-	<target name="war" depends="compile">
-		<war destfile="${build}/ROOT.war"
-			webxml="${webxml}">
-			<fileset dir="${web}" />
-			<lib dir="${libruntime}" />
-			<classes dir="${classes}" />
-		</war>
-	</target>
-
+    <target name="dist" depends="compile"
+        description="generate the distribution" >
+        <war destfile="${war.file}" webxml="WebContent/WEB-INF/web.xml">
+            <fileset dir="WebContent" />
+            <classes dir="${dist.dir}">
+                <include name="**/*.class"/>
+            </classes>
+            
+            <!--
+            <classes dir="{src.dir}">
+                <include name="**/*.xml">
+            </classes>
+            -->
+            <!--
+            <lib dir="WEB-INF/lib"/>
+            <classes dir="WEB-INF/classes"/>
+            -->
+            
+        </war>
+    </target>   
+    <target name="clean" description="clean up" >
+        <delete dir="${build.dir}" />
+        <delete dir="${dist.dir}" />
+    </target>
 </project>
