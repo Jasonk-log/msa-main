@@ -9,6 +9,7 @@
 </head>
 <body>
 <%
+ String result = null;
  out.println("This is the main page.");
 
  try {
@@ -29,7 +30,7 @@
    }
    rd.close();
 
-   String result = sb.toString();
+   result = sb.toString();
 
 } catch (Exception e) {
  e.printStackTrace();
