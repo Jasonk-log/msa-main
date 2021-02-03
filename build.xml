@@ -13,7 +13,7 @@
 
     <target name="init">
         <delete dir="${dist.dir}"/>
-        <delete file="kdiis.war"/>
+        <delete file="ROOT.war"/>
 
         <!-- Create dist.dir-->
         <mkdir dir="${dist.dir}"/>
