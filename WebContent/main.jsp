@@ -35,7 +35,7 @@
  e.printStackTrace();
 }
 
- out.println("Result: : + result);
+ out.println("Result: " + result);
 %>
 </body>
 </html>
