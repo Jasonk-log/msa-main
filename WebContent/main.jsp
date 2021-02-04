@@ -10,7 +10,8 @@
 <body>
 <%
  String result = null;
- out.println("This is the main page. 001");
+ out.println("This is the main page.");
+ out.println("<br>");
 
  try {
 
