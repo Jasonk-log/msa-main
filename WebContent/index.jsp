@@ -2,7 +2,6 @@
 <%@ page import = "java.sql.*,java.util.*" %>
 <%@ page import = "org.json.simple.JSONArray" %>
 <%@ page import = "org.json.simple.JSONObject" %>
-<%@ page import = "org.json.simple.JSONException" %>
 <%@ page import = "org.json.simple.parser.JSONParser" %>
 <%@ page import = "org.json.simple.parser.ParseException" %>
 <%
@@ -10,7 +9,7 @@
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 		JSONObject jo = null;
-		
+		ResultSetMetaData rmd = null;
 		//JSONArray jary = new JSONArray();
 		
         try{
@@ -26,7 +25,7 @@
             rs = pstmt.executeQuery();
             while (rs.next()){
 				jo = new JSONObject();
-				ResultSetMetaData rmd = rs.getMetaData();
+				rmd = rs.getMetaData();
 				for (int i=1; i<=rmd.getColumnCount(); i++) {
 					jo.put(rmd.getColumnName(i).rs.getString(rmd.getColumnName(i)));
 				}
@@ -38,9 +37,7 @@
 
         }catch(Exception e){
 			e.printStackTrace();
-        }catch(JSONException jsone){
-			throw jsone;
-		}finally{
+		finally{
         if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}
         if(conn != null) try{conn.close();}catch(SQLException sqle){}
         }
