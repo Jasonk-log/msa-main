@@ -37,6 +37,7 @@
 
         }catch(Exception e){
 			e.printStackTrace();
+		}
 		finally{
         if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}
         if(conn != null) try{conn.close();}catch(SQLException sqle){}
