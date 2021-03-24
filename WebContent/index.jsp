@@ -4,6 +4,10 @@
 <%@ page import = "java.sql.PreparedStatement" %>
 <%@ page import = "java.sql.ResultSet" %>
 <%@ page import = "java.sql.ResultSetMetaData" %>
+<%@ page import = "java.sql.DriverManager" %>
+<%@ page import = "java.sql.DatabaseMetaData" %>
+<%@ page import = "java.sql.SQLException" %>
+
 <%@ page import = "org.json.simple.JSONArray" %>
 <%@ page import = "org.json.simple.JSONObject" %>
 <%@ page import = "org.json.simple.parser.JSONParser" %>
@@ -26,16 +30,16 @@
         DatabaseMetaData meta = conn.getMetaData();
         pstmt = conn.prepareStatement(sql);
         pstmt.executeQuery();
-            rs = pstmt.executeQuery();
-            while (rs.next()){
-				jo = new JSONObject();
-				rmd = rs.getMetaData();
-				for (int i=1; i<=rmd.getColumnCount(); i++) {
-					jo.put(rmd.getColumnName(i).rs.getString(rmd.getColumnName(i)));
-				}
-				//jary.put(jo);
+        rs = pstmt.executeQuery();
+        while (rs.next()){
+		jo = new JSONObject();
+		rmd = rs.getMetaData();
+		for (int i=1; i<=rmd.getColumnCount(); i++) {
+			jo.put(rmd.getColumnName(i),rs.getString(rmd.getColumnName(i)));
+		}
+		//jary.put(jo);
                 //out.print(rs.getString(1));
-            }
+        }
         out.print("<b><i>Query("+sql+") Result</b><br><br>");
 		out.print("JSON: <br>" + jo.toString());
 
