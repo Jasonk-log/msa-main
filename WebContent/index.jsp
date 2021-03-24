@@ -8,6 +8,7 @@
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+		JSONObject jo = null;
 		
 		//JSONArray jary = new JSONArray();
 		
@@ -23,7 +24,7 @@
         pstmt.executeQuery();
             rs = pstmt.executeQuery();
             while (rs.next()){
-				JSONObject jo = new JSONObject();
+				jo = new JSONObject();
 				ResultSetMetaData rmd = rs.getMetaData();
 				for (int i=1; i<=rmd.getColumnCount(); i++) {
 					jo.put(rmd.getColumnName(i).rs.getString(rmd.getColumnName(i)));
@@ -31,6 +32,9 @@
 				//jary.put(jo);
                 //out.print(rs.getString(1));
             }
+        out.print("<b><i>Query("+sql+") Result</b><br><br>");
+		out.print("JSON: <br>" + jo.toString());
+
         }catch(Exception e){
 			e.printStackTrace();
         }catch(JSONException jsone){
@@ -39,6 +43,4 @@
         if(pstmt != null) try{pstmt.close();}catch(SQLException sqle){}
         if(conn != null) try{conn.close();}catch(SQLException sqle){}
         }
-        out.print("<b><i>Query("+sql+") Result</b><br><br>");
-		out.print("JSON: <br>" + jo.toString());
 %>
