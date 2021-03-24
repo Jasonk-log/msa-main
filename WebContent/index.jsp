@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR" %>
-<%@ page import = "java.sql.*,java.util.*" %>
+<%@ page import = "java.util.*" %>
+<%@ page import = "java.sql.Connection" %>
+<%@ page import = "java.sql.PreparedStatement" %>
+<%@ page import = "java.sql.ResultSet" %>
+<%@ page import = "java.sql.ResultSetMetaData" %>
 <%@ page import = "org.json.simple.JSONArray" %>
 <%@ page import = "org.json.simple.JSONObject" %>
 <%@ page import = "org.json.simple.parser.JSONParser" %>
